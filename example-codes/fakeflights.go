@@ -5,34 +5,35 @@
 package main
 
 import (
+	"fmt"
+	"io"
 	"os"
 	"io/ioutil"
+	"crypto/sha256"
 )
 
-// The number and order of the input files has to match the content of the inputs slice.
-var inputs = []string {
-"I'm the input file #1.\n",
-"I'm the input file #2.\n",
-"I'm the input file #3.\n"}
-
+// The number and order of the input files has to match the content of the inputHashes slice.
+var inputHashes = []string {
+"62938dad5d3e29ec0ae836ed76cc290da742b4addbf06e3b6ec961cc720552f0",
+"ca118582edc810af3b5662d08ebffed944716ba52f00099ddef2c69e91dbf2a0",
+"9a8fa186921bd5b92822f8afc868674c88be04f4e720925fc68e5784c3faafed"}
 
 func verifyInputFiles() {
-	for i := 0; i < len(inputs); i++ {
+	for i := 0; i < len(inputHashes); i++ {
 		fIn, err := os.Open(os.Args[5 + i])
 		if err != nil {
 			os.Exit(1)
 		}
-
-		content, err := ioutil.ReadFile(fIn.Name())
-		if err != nil {
-			os.Exit(1)
-		}
-
-		if string(content) != inputs[i] { 
-			os.Exit(1)
-		}
+		hash := sha256.New();
+       		buf := make([]byte, 4096)
+       		_, err = io.CopyBuffer(hash, fIn, buf)
+      		if err != nil {
+      			os.Exit(1)
+      		}
+       		if fmt.Sprintf("%x", hash.Sum(nil)) != inputHashes[i] { 
+                	os.Exit(1)
+      		}
 	}
-        
 }
 
 func generateOutputFile() {
@@ -43,7 +44,7 @@ func generateOutputFile() {
 }
 
 func main() {
-	if len(os.Args) != (5 + len(inputs)) || os.Args[1] != "--cull-time" || os.Args[2] != "202007210000" || os.Args[3] != "-o" {
+	if len(os.Args) != (5 + len(inputHashes)) || os.Args[1] != "--cull-time" || os.Args[2] != "202007210000" || os.Args[3] != "-o" {
 		os.Exit(1)
 	}
 	verifyInputFiles()
