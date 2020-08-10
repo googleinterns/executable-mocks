@@ -4,11 +4,12 @@
 package main
 
 import (
-    "fmt"
     "io"
     "os"
     "io/ioutil"
     "crypto/sha256"
+    "bytes"
+    "encoding/hex"
 )
 
 const bufferSize = 4096
@@ -17,7 +18,7 @@ var inputHash string = "273fec409f32bd0ecbd50d3ab9acf1406efb85f24c89a257e8a3ad3e
 func verifyInput() {
     fIn, err := os.Open(os.Args[6])
     if err != nil  {
-        os.Exit(1) 
+        os.Exit(1)
     }
     defer fIn.Close()
 
@@ -25,7 +26,12 @@ func verifyInput() {
     if _, err = io.CopyBuffer(hash, fIn, make([]byte, bufferSize)); err != nil {
         os.Exit(1)
     }
-    if fmt.Sprintf("%x", hash.Sum(nil)) != inputHash { 
+    
+    expectedHash, err := hex.DecodeString(inputHash)
+    if err != nil {
+        os.Exit(1)
+    }
+    if !bytes.Equal(hash.Sum(nil), expectedHash) {
         os.Exit(1)
     }
 }

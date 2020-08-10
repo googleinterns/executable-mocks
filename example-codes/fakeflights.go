@@ -1,15 +1,16 @@
 // The fakeflights is a binary that is like flights, but faster.
 //
 // Currently it only supports running >>flights --cull-time 202007210000 -o output.qff input1.qff input2.qff input3.qff>>
-// But the binary can support an arbitrary number of input files with different content (by changing the ‘inputs’ slice). 
+// But the binary can support an arbitrary number of input files with different content (by changing the ‘inputs’ slice).
 package main
 
 import (
-    "fmt"
     "io"
     "os"
     "io/ioutil"
     "crypto/sha256"
+    "encoding/hex"
+    "bytes"
 )
 
 const bufferSize = 4096
@@ -31,7 +32,12 @@ func verifyInputFiles() {
         if _, err = io.CopyBuffer(hash, fIn,  make([]byte, bufferSize)); err != nil {
             os.Exit(1)
         }
-        if fmt.Sprintf("%x", hash.Sum(nil)) != inputHashes[i] { 
+        
+        expectedHash, err := hex.DecodeString(inputHashes[i])
+        if err != nil {
+            os.Exit(1)
+        }
+        if !bytes.Equal(hash.Sum(nil), expectedHash) {
             os.Exit(1)
         }
     }
