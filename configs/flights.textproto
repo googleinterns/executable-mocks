@@ -1,0 +1,16 @@
+command: "flights"
+args: <
+  str_arg: "--cull-time"
+>
+args: <
+  str_arg: "202007210000"
+>
+args: <
+  str_arg: "-o"
+>
+args: <
+  out_path: "tmp/test-output"
+>
+args: <
+  in_hash: "f4262548cb993257ce8409eec8b0382e2836b5dd6d9cec1e8527b458dccd3098"
+>

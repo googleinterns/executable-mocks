@@ -1,0 +1,16 @@
+command: "ssim2qff"
+args: <
+  str_arg: "-t"
+>
+args: <
+  str_arg: "201809010005"
+>
+args: <
+  str_arg: "-o"
+>
+args: <
+  out_path: "testdata/output"
+>
+args: <
+  in_hash: "ecf701f727d9e2d77c4aa49ac6fbbcc997278aca010bddeeb961c10cf54d435a"
+>
