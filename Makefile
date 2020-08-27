@@ -22,6 +22,7 @@ proto:
 	protoc -I=protos --go_out=${GOPATH}/src protos/mockexec.proto
 
 mockexec: proto
+	go build -o cmd/mockexec/mockexec github.com/regb/executable-mocks/cmd/mockexec/
 
 test-mockexec: mockexec
 	bash test/mockexec_test.sh
