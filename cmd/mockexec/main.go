@@ -17,7 +17,7 @@ const bufferSize = 4096
 
 func main() {
   // TODO: obtain the configuration file from the arguments
-  t, err := ioutil.ReadFile("configs/flights.textproto")
+  t, err := ioutil.ReadFile("test/testdata/testconfig.textproto")
   if err != nil {
     log.Fatal(err)
   }
