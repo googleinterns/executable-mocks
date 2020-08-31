@@ -16,8 +16,10 @@ import (
 const bufferSize = 4096
 
 func main() {
-  // TODO: obtain the configuration file from the arguments
-  t, err := ioutil.ReadFile("test/testdata/testconfig.textproto")
+  if len(os.Args) < 2 {
+    log.Fatal("Expected the path of the configuration file")
+  }
+  t, err := ioutil.ReadFile(os.Args[1])
   if err != nil {
     log.Fatal(err)
   }
@@ -25,19 +27,17 @@ func main() {
   if err := proto.UnmarshalText(string(t), c); err != nil {
     log.Fatal(err)
   }
-  if len(os.Args) - 1 != len(c.Args) {
-    log.Fatalf("Expected %v arguments but got %v", len(c.Args), len(os.Args) - 1)
+  if len(os.Args) - 2 != len(c.Args) {
+    log.Fatalf("Expected %v arguments but got %v", len(c.Args), len(os.Args) - 2)
   }
+  
+  // TODO: check the name of the utility.
 
   var sourcePath string
   var destPath string
-  for i := 0; i < len(os.Args); i++ {
+  for i := 2; i < len(os.Args); i++ {
     // TODO: perform the checks in parallel
-    if i == 0 {
-      // TODO: check the name of the utility.
-      continue
-    }
-    switch x := c.Args[i-1].Arg.(type) {
+    switch x := c.Args[i-2].Arg.(type) {
     case *pb.Argument_StrArg:
       if x.StrArg != os.Args[i] {
         log.Fatalf("String arguments don't match: want %q; got %q", x.StrArg, os.Args[i])
