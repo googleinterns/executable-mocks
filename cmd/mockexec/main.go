@@ -8,6 +8,7 @@ import (
   "bytes"
   "encoding/hex"
   "crypto/sha256"
+  "strings"
 
   "github.com/golang/protobuf/proto"
   pb "github.com/regb/executable-mocks/protos/mockexec"
@@ -34,7 +35,9 @@ func main() {
   // TODO: check the name of the utility.
 
   var sourcePath string
+  var sourceContent string
   var destPath string
+  
   for i := 2; i < len(os.Args); i++ {
     // TODO: perform the checks in parallel
     switch x := c.Args[i-2].Arg.(type) {
@@ -66,26 +69,39 @@ func main() {
     case *pb.Argument_OutPath:
       sourcePath = x.OutPath
       destPath = os.Args[i]
+    case *pb.Argument_OutContent:
+      sourceContent = x.OutContent
+      destPath = os.Args[i]
     default:
       log.Fatalf("Unexpected argument type %T", x)
     }
   }
   
-  if (sourcePath == "") || (destPath == "") {
-    log.Fatalf("Both source path (%q) and  destination path (%q) must be set", sourcePath, destPath)
+  if destPath == "" {
+    log.Fatalf("The destination path (%q) of the output file must be set", destPath)
+  }
+  
+  if (sourceContent != "") && (sourcePath != "") {
+    log.Fatalf("Only one of the source content (%q) or the source path (%q) of the output file can be set", sourceContent, sourcePath)
   }
   
   fDest, err := os.Create(destPath)
   if err != nil {
      log.Fatal(err)
   }
-
-  fSrc, err := os.Open(sourcePath)
-  if err != nil {
-     log.Fatal(err)
-  }
-
-  if _, err = io.CopyBuffer(fDest, fSrc, make([]byte, bufferSize)); err != nil {
-    log.Fatal(err)
+  
+  if sourcePath != "" {
+    fSrc, err := os.Open(sourcePath)
+    if err != nil {
+       log.Fatal(err)
+    }
+  
+    if _, err = io.CopyBuffer(fDest, fSrc, make([]byte, bufferSize)); err != nil {
+      log.Fatal(err)
+    }
+  } else if sourceContent != "" {
+    if _, err = io.CopyBuffer(fDest, strings.NewReader(sourceContent), make([]byte, bufferSize)); err != nil {
+      log.Fatal(err)
+    }
   }
 }

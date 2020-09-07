@@ -1,0 +1,20 @@
+command: "example"
+args: <
+  str_arg: "-t"
+>
+args: <
+  str_arg: "SOME STRING"
+>
+args: <
+  str_arg: "-o"
+>
+args: <
+  out_path: "tmp/test-output"
+>
+# "INPUT" hash
+args: <
+  in_hash: "4cb90a97dd7fc70b16eeefa5c3937769b7a35d7ba1a07db400b8d470dacbf030"
+>
+args: <
+  out_content: "I AM AN OUTPUT"
+>

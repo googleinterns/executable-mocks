@@ -12,8 +12,13 @@ message Argument {
     // The argument is an input file with the given hash.
     string in_hash = 2;
 
-    // The argument is a path to an output file.
+    // The argument is a path to an output file. Use this field for larger content.
+    // Note that either the out_path or the out_content should be set, not both.
     string out_path = 3;
+    
+    // The argument is the content of an output file. Use this field for smaller content.
+    // Note that either the out_path or the out_content should be set, not both.
+    string out_content = 4;
   }
 }
 
