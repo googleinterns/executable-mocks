@@ -30,3 +30,17 @@ message MockCall {
   // The command arguments expected.
   repeated Argument args = 2;
 }
+
+// ParallelMockCalls represents a set of calls to mock.
+// The execution of the calls can be done in parallel.
+message ParallelMockCalls {
+  // N mock executions in parallel, order doesn't matter
+  repeated MockCall calls = 1;
+}
+
+// ExpectedMockCalls represents the expected sequence of calls to mock for a given
+// testcase, across all executables.
+message ExpectedMockCalls {
+  // N mock executions in sequence, order matters
+  repeated ParallelMockCalls calls = 1;
+}
