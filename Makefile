@@ -32,7 +32,7 @@ clean:
 	rm -rf examples/mocks/flights/flights
 	rm -rf tools/hash/hash
 	rm -rf protos/mockexec
-	rm -rf tmp/
+	rm -rf tmp/*
 	rm -rf cmd/mockexec/mockexec
 
 .PHONY: all ssim2qff flights mocks hash proto mockexec test-mockexec clean

@@ -24,7 +24,7 @@ func main() {
   if err != nil {
     log.Fatal(err)
   }
-  c := &pb.CommandLine{}
+  c := &pb.MockCall{}
   if err := proto.UnmarshalText(string(t), c); err != nil {
     log.Fatal(err)
   }

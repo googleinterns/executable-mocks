@@ -22,9 +22,10 @@ message Argument {
   }
 }
 
-message CommandLine {
+// MockCall represents a binary call to mock.
+message MockCall {
   // The name of the executable called.
-  string command = 1;
+  string binary = 1;
 
   // The command arguments expected.
   repeated Argument args = 2;

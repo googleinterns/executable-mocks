@@ -1,4 +1,4 @@
-command: "example"
+binary: "example"
 args: <
   str_arg: "-t"
 >
