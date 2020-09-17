@@ -1,4 +1,4 @@
-command: "ssim2qff"
+command: "util2"
 args: <
   str_arg: "-t"
 >

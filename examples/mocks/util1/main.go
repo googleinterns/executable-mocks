@@ -1,6 +1,6 @@
-// This is a binary that is like flights, but faster.
+// This is a binary that is like util1, but faster.
 //
-// Currently it only supports running >>flights --cull-time 202007210000 -o output.qff input1.qff input2.qff input3.qff>>
+// Currently it only supports running >>util1 --cull-time 202007210000 -o output.dat input1.dat input2.dat input3.dat>>
 // But the binary can support an arbitrary number of input files with different content (by changing the ‘inputs’ slice).
 
 package main

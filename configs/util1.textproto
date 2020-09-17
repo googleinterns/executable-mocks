@@ -1,4 +1,4 @@
-command: "flights"
+command: "util1"
 args: <
   str_arg: "--cull-time"
 >
