@@ -17,7 +17,7 @@ ifndef $(GOPATH)
     export GOPATH
 endif
 
-all: mocks hash test-mockexec
+all: mocks hash test-mockexec test-bldmock
 
 util2:
 	go build -o examples/mocks/util2/util2 github.com/googleinterns/executable-mocks/examples/mocks/util2
@@ -43,6 +43,12 @@ test-mockexec: mockexec
 	mkdir -p tmp/
 	bash test/mockexec_test.sh
 
+bldmock: proto
+	go build -o cmd/bldmock/bldmock github.com/regb/executable-mocks/cmd/bldmock/
+
+test-bldmock: bldmock
+	go run test/bldmocktest.go
+
 clean:
 	rm -rf examples/mocks/util2/util2
 	rm -rf examples/mocks/util1/util1
@@ -50,5 +56,6 @@ clean:
 	rm -rf protos/mockexec
 	rm -rf tmp/*
 	rm -rf cmd/mockexec/mockexec
+	rm -rf cmd/bldmock/bldmock
 
-.PHONY: all util2 util1 mocks hash proto mockexec test-mockexec clean
+.PHONY: all util2 util1 mocks hash proto mockexec test-mockexec bldmock test-bldmock clean
