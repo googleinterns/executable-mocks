@@ -1,6 +1,6 @@
-// This is a binary that is like ssim2qff, but faster.
+// This is a binary that is like util2, but faster.
 //
-// Currently it supports only running >>ssim2qff -t '201809010005' -o outfile -d inputfile>>
+// Currently it supports only running >>util2 -t '201809010005' -o outfile -d inputfile>>
 
 package main
 
