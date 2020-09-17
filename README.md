@@ -1,5 +1,7 @@
 # Executable Mocks
 
+**This is not an officially supported Google product.**
+
 ## Code Reviews
 
 Most non-trivial change should go through review before being committed. It's
