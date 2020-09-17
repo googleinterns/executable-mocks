@@ -20,23 +20,23 @@ endif
 all: mocks hash test-mockexec
 
 util2:
-	go build -o examples/mocks/util2/util2 github.com/regb/executable-mocks/examples/mocks/util2
+	go build -o examples/mocks/util2/util2 github.com/googleinterns/executable-mocks/examples/mocks/util2
 
 util1:
-	go build -o examples/mocks/util1/util1 github.com/regb/executable-mocks/examples/mocks/util1
+	go build -o examples/mocks/util1/util1 github.com/googleinterns/executable-mocks/examples/mocks/util1
 
 mocks: util2 util1
 	bash examples/mocks/test/util2.sh
 	bash examples/mocks/test/util1.sh
 
 hash:
-	go build -o tools/hash/hash github.com/regb/executable-mocks/tools/hash
+	go build -o tools/hash/hash github.com/googleinterns/executable-mocks/tools/hash
 
 proto:
 	protoc -I=protos --go_out=${GOPATH}/src protos/mockexec.proto
 
 mockexec: proto
-	go build -o cmd/mockexec/mockexec github.com/regb/executable-mocks/cmd/mockexec/
+	go build -o cmd/mockexec/mockexec github.com/googleinterns/executable-mocks/cmd/mockexec/
 
 test-mockexec: mockexec
 	bash test/mockexec_test.sh
