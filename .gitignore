@@ -1,5 +1,3 @@
 # Empty directory that contains temporary files
-*
-!.gitignore
 example/mocks/util1/util1
 example/mocks/util2/util2
