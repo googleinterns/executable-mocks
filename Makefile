@@ -66,4 +66,4 @@ clean:
 	rm -rf cmd/bldmock/bldmock
 	rm -rf cmd/genrconfig/genrconfig
 
-.PHONY: all util2 util1 mocks hash proto mockexec test-mockexec bldmock test-bldmock genrconfig clean
+.PHONY: all util2 util1 mocks hash proto mockexec test-mockexec bldmock test-bldmock genrconfig test-genrconfig clean
