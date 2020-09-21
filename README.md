@@ -2,6 +2,71 @@
 
 **This is not an officially supported Google product.**
 
+## Example
+
+As an example of how to use this tool, we are going to mock the `tar` utility.
+
+[compress](https://github.com/googleinterns/executable-mocks/examples/tar/compre
+ss.sh) is a program that uses the `tar` utility. The program echoes some lines
+and stores some files in a new file.
+
+The tests of `compress` will be slow because they run `compress`, that executes
+the `tar` utility. However, the `tar` utility is already tested, so the
+`compress` tests would run it without need. To make them faster, we are going
+to mock the `tar` utility for the `compress` tests.
+
+To build the required binaries, we run the `example` Makefile rule: `make
+example`.
+
+Note that the files `input1`, `input2` and `output1.tar` need to exist before.
+The input files need to exist in the `examples/tar/data/` directory and they
+can be anything. For example, to have a resource-intensive utility, we could
+create heavy files with `fallocate -l 0.5G examples/tar/data/input1` and
+`fallocate -l 0.5G examples/tar/data/input2` To create `output1.tar`, we can
+run `compress` once with `bash examples/tar/compress.sh`.
+
+### Creating the mock
+
+`compress` runs the command:
+`tar -cf tmp/output1.tar examples/tar/data/input1 examples/tar/data/input2`
+
+We use the `genrconfig` tool to create the mock:
+
+`cmd/genrconfig/genrconfig tmp/tar-test1 tar "strarg:-cf"
+"outpath:tmp/output1.tar" "infile:examples/tar/data/input1"
+"infile:examples/tar/data/input2"`
+
+Now, we have a file `tmp/tar-test1.textproto` with the configuration for this
+case.
+
+### Using the mocks
+
+We replace the call to the original binary with a call to the mock.
+
+We use the `mockexec` tool to mock the utility, by replacing `tar -cf
+tmp/output1.tar examples/tar/data/input1 examples/tar/data/input2` in
+`compress` with `./mockexec examples/tar/tar-test1.textproto -cf
+tmp/output1.tar examples/tar/data/input1 examples/tar/data/input2`.
+
+The changed file is
+[compress-mocks](https://github.com/googleinterns/executable-mocks/examples/tar/
+compress-mocks.sh).
+
+Now, `compress-mocks` uses a mock of `tar` with the same arguments and
+behaviour as `compress`, except that it doesn't run the real utility. It can be
+run with `bash examples/tar/compress-mocks.sh`
+
+### Results
+
+We use 0.5GB input files.
+
+Running `compress` takes an average of 7.81 seconds while running
+`compress-mocks` takes an average of 2.59 seconds, with 10 repetitions each.
+This makes it about 3 times faster.
+
+When using more resource intensive utilities, the change can be really
+significant. Also note that this tool can be used in different use cases.
+
 ## Code Reviews
 
 Most non-trivial change should go through review before being committed. It's

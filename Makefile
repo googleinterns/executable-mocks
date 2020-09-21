@@ -52,6 +52,8 @@ test-bldmock: bldmock
 genrconfig: bldmock
 	go build -o cmd/genrconfig/genrconfig github.com/googleinterns/executable-mocks/cmd/genrconfig/
 
+example: genrconfig mockexec
+
 clean:
 	rm -rf examples/mocks/util2/util2
 	rm -rf examples/mocks/util1/util1
