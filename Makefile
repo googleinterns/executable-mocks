@@ -17,7 +17,7 @@ ifndef $(GOPATH)
     export GOPATH
 endif
 
-all: mocks hash test-mockexec test-bldmock
+all: mocks hash test-mockexec test-bldmock genrconfig
 
 util2:
 	go build -o examples/mocks/util2/util2 github.com/googleinterns/executable-mocks/examples/mocks/util2
@@ -44,10 +44,13 @@ test-mockexec: mockexec
 	bash test/mockexec_test.sh
 
 bldmock: proto
-	go build -o cmd/bldmock/bldmock github.com/regb/executable-mocks/cmd/bldmock/
+	go build -o cmd/bldmock/bldmock github.com/googleinterns/executable-mocks/cmd/bldmock/
 
 test-bldmock: bldmock
 	go run test/bldmocktest.go
+
+genrconfig: bldmock
+	go build -o cmd/genrconfig/genrconfig github.com/googleinterns/executable-mocks/cmd/genrconfig/
 
 clean:
 	rm -rf examples/mocks/util2/util2
@@ -57,5 +60,6 @@ clean:
 	rm -rf tmp/*
 	rm -rf cmd/mockexec/mockexec
 	rm -rf cmd/bldmock/bldmock
+	rm -rf cmd/genrconfig/genrconfig
 
-.PHONY: all util2 util1 mocks hash proto mockexec test-mockexec bldmock test-bldmock clean
+.PHONY: all util2 util1 mocks hash proto mockexec test-mockexec bldmock test-bldmock genrconfig clean
