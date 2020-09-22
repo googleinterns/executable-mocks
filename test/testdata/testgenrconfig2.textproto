@@ -3,7 +3,7 @@ args: <
   str_arg: "-cf"
 >
 args: <
-  out_path: "tmp/output"
+  out_content: "OUTPUT"
 >
 args: <
   in_hash: "5450a4acb852ff4521aed7ee121c41e4e7388828714f93623807f12b14e3e4cc"
