@@ -21,7 +21,7 @@ Note that the files `input1`, `input2` and `output1.tar` need to exist before. T
 
 We use the `genrconfig` tool to create the mock:
 
-`cmd/genrconfig/genrconfig tmp/tar-test1 tar "strarg:-cf" "outpath:tmp/output1.tar" "infile:examples/tar/data/input1" "infile:examples/tar/data/input2"`
+`cmd/genrconfig/genrconfig tar "strarg:-cf" "outpath:tmp/output1.tar" "infile:examples/tar/data/input1" "infile:examples/tar/data/input2" > tmp/tar-test1.textproto`
 
 Now, we have a file `tmp/tar-test1.textproto` with the configuration for this case.
 
