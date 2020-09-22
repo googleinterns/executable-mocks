@@ -19,7 +19,6 @@ import (
   "os"
   "fmt"
   "log"
-  "io/ioutil"
   "strings"
   
   "github.com/googleinterns/executable-mocks/cmd/bldmock"
@@ -51,7 +50,7 @@ func main() {
     }
   }
   mc := bldmock.BuildMockConfig(os.Args[1], args...)
-  if _, err := fmt.Print([]byte(proto.MarshalTextString(&mc))); err != nil {
+  if _, err := fmt.Print((proto.MarshalTextString(&mc))); err != nil {
       log.Fatal(err)
   }
 }
