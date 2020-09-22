@@ -24,7 +24,7 @@ EXIT_STATUS=0
 echo "INPUT1" > tmp/test-input1
 echo "INPUT2" > tmp/test-input2
 cmd/genrconfig/genrconfig tar "strarg:-cf" "outpath:tmp/output" "infile:tmp/test-input1" "infile:tmp/test-input2" > tmp/tar.textproto
-if [ $? -ne 0 ] || [ ! -f "tmp/tar.textproto" ] || [ "$(cmp -s "test/testdata/testgenrconfig.textproto" "tmp/tar.textproto")" == "1" ]
+if [ $? -ne 0 ] || [ ! -f "tmp/tar.textproto" ] || [[ $(cmp -s "test/testdata/testgenrconfig.textproto" "tmp/tar.textproto") -ne 0 ]]
 then
 	echo "Test 1: not working properly."
 	EXIT_STATUS=1
@@ -34,7 +34,7 @@ fi
 echo "INPUT1" > tmp/test-input1
 echo "INPUT2" > tmp/test-input2
 cmd/genrconfig/genrconfig tar "strarg:-cf" "outcontent:OUTPUT" "infile:tmp/test-input1" "infile:tmp/test-input2" > tmp/tar.textproto
-if [ $? -ne 0 ] || [ ! -f "tmp/tar.textproto" ] || [ "$(cmp -s "test/testdata/testgenrconfig.textproto" "tmp/tar.textproto")" == "1" ]
+if [ $? -ne 0 ] || [ ! -f "tmp/tar.textproto" ] || [[ $(cmp -s "test/testdata/testgenrconfig.textproto" "tmp/tar.textproto") -ne 0 ]]
 then
 	echo "Test 2: not working properly."
 	EXIT_STATUS=1
