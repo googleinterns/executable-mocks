@@ -1,0 +1,13 @@
+binary: "tar"
+args: <
+  str_arg: "-cf"
+>
+args: <
+  out_path: "tmp/output"
+>
+args: <
+  in_hash: "5450a4acb852ff4521aed7ee121c41e4e7388828714f93623807f12b14e3e4cc"
+>
+args: <
+  in_hash: "2590532ed6ac4e4552dc68b26cfe7888480d185a8bf7152c92bb6f0f20571ea5"
+>
