@@ -28,18 +28,16 @@ import (
 
 /*
  * Takes command line arguments and generates a Protocol Buffer configuration file.
- * An example of use is: ./genrconfig configs/example name "strarg:generic string" "infile:tmp/input"
- * The first argument defines the path of the configuration file. The extension .textproto is added.
- * In the example, the configuration file path would be "configs/example.textproto".
- * The second argument is the name of the binary and the arguments follow.
+ * An example of use is: ./genrconfig binary "strarg:generic string" "infile:tmp/input"
+ * The second argudment is the name of the binary and the arguments follow.
  * The arguments must have as a prefix "type:". The type can be: strarg, infile, outpath, outcontent.
  */
 func main() {
-  if len(os.Args) < 3 {
-    log.Fatal("Expected the configuration file path and the name of the binary.")
+  if len(os.Args) < 2 {
+    log.Fatal("Expected the name of the binary.")
   }
   args := []interface{} {}
-  for i := 3; i < len(os.Args); i++ {
+  for i := 2; i < len(os.Args); i++ {
     if (strings.HasPrefix(os.Args[i], "strarg:")) {
       args = append(args, bldmock.StrArg(strings.TrimPrefix(os.Args[i], "strarg:")))
     } else if (strings.HasPrefix(os.Args[i], "infile:")) {
@@ -52,8 +50,8 @@ func main() {
       log.Fatalf("Unexpected argument: %s has an unknown prefix.", os.Args[i])
     }
   }
-  mc := bldmock.BuildMockConfig(os.Args[2], args...)
-  if err := ioutil.WriteFile(fmt.Sprintf("%s.textproto", os.Args[1]), []byte(proto.MarshalTextString(&mc)), 0700); err != nil {
+  mc := bldmock.BuildMockConfig(os.Args[1], args...)
+  if _, err := fmt.Print([]byte(proto.MarshalTextString(&mc))); err != nil {
       log.Fatal(err)
   }
 }
