@@ -15,7 +15,7 @@
 syntax = "proto3";
 package mockexec;
 
-option go_package = "github.com/regb/executable-mocks/protos/mockexec";
+option go_package = "github.com/googleinterns/executable-mocks/protos/mockexec";
 
 // Argument represents a single command line argument.
 message Argument {
