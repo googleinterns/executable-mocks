@@ -23,7 +23,7 @@ EXIT_STATUS=0
 # correct usage testcase 1 (with output path)
 echo "INPUT" > tmp/test-input
 echo "OUTPUT" > tmp/test-output
-cmd/mockexec/mockexec test/testdata/testconfig_path.textproto -t 'SOME STRING' -o tmp/result tmp/test-input > /dev/null 2>&1
+cmd/mockexec/mockexec -t 'SOME STRING' -o tmp/result tmp/test-input < test/testdata/testconfig_path.textproto > /dev/null 2>&1
 if [ $? -ne 0 ] || [ ! -f "tmp/result" ] || [ "$(cat tmp/result)" != "OUTPUT" ]
 then
 	echo "Test 1: not working properly."
@@ -32,7 +32,7 @@ fi
 
 # correct usage testcase 2 (with output content)
 echo "INPUT" > tmp/test-input
-cmd/mockexec/mockexec test/testdata/testconfig_content.textproto -t 'SOME STRING' -o tmp/result tmp/test-input > /dev/null 2>&1
+cmd/mockexec/mockexec -t 'SOME STRING' -o tmp/result tmp/test-input < test/testdata/testconfig_content.textproto > /dev/null 2>&1
 if [ $? -ne 0 ] || [ ! -f "tmp/result" ] || [ "$(cat tmp/result)" != "I AM AN OUTPUT" ]
 then
 	echo "Test 2: not working properly."
@@ -42,7 +42,7 @@ fi
 # incorrect usage testcase 3 (too many arguments)
 echo "INPUT" > tmp/test-input
 echo "OUTPUT" > tmp/test-output
-cmd/mockexec/mockexec test/testdata/testconfig_path.textproto -t 'SOME STRING' -o tmp/result tmp/test-input 'TEST' > /dev/null 2>&1
+cmd/mockexec/mockexec -t 'SOME STRING' -o tmp/result tmp/test-input 'TEST' < test/testdata/testconfig_path.textproto > /dev/null 2>&1
 if [ $? -eq 0 ]
 then
 	echo "Test 3: not working properly."
@@ -52,7 +52,7 @@ fi
 # incorrect usage testcase 4 (not enough arguments)
 echo "INPUT" > tmp/test-input
 echo "OUTPUT" > tmp/test-output
-cmd/mockexec/mockexec test/testdata/testconfig_path.textproto -t 'SOME STRING' -o tmp/result > /dev/null 2>&1
+cmd/mockexec/mockexec -t 'SOME STRING' -o tmp/result < test/testdata/testconfig_path.textproto > /dev/null 2>&1
 if [ $? -eq 0 ]
 then
 	echo "Test 4: not working properly."
@@ -62,7 +62,7 @@ fi
 # incorrect usage testcase 5 (wrong string content)
 echo "INPUT" > tmp/test-input
 echo "OUTPUT" > tmp/test-output
-cmd/mockexec/mockexec test/testdata/testconfig_path.textproto -t 'THIS IS NOT SOME STRING' -o tmp/result tmp/test-input > /dev/null 2>&1
+cmd/mockexec/mockexec -t 'THIS IS NOT SOME STRING' -o tmp/result tmp/test-input < test/testdata/testconfig_path.textproto > /dev/null 2>&1
 if [ $? -eq 0 ]
 then
 	echo "Test 5: not working properly."
@@ -72,7 +72,7 @@ fi
 # incorrect usage testcase 6 (wrong flag)
 echo "INPUT" > tmp/test-input
 echo "OUTPUT" > tmp/test-output
-cmd/mockexec/mockexec test/testdata/testconfig_path.textproto -d 'SOME STRING' -o tmp/result tmp/test-input > /dev/null 2>&1
+cmd/mockexec/mockexec -d 'SOME STRING' -o tmp/result tmp/test-input < test/testdata/testconfig_path.textproto > /dev/null 2>&1
 if [ $? -eq 0 ]
 then
 	echo "Test 6: not working properly."
@@ -82,40 +82,20 @@ fi
 # incorrect usage testcase 7 (wrong input file content)
 echo "NOT AN INPUT" > tmp/test-input
 echo "OUTPUT" > tmp/test-output
-cmd/mockexec/mockexec test/testdata/testconfig_path.textproto -t 'SOME STRING' -o tmp/result tmp/test-input > /dev/null 2>&1
+cmd/mockexec/mockexec -t 'SOME STRING' -o tmp/result tmp/test-input < test/testdata/testconfig_path.textproto> /dev/null 2>&1
 if [ $? -eq 0 ]
 then
 	echo "Test 7: not working properly."
 	EXIT_STATUS=1
 fi
 
-# incorrect usage testcase 8 (missing configuration file)
+# incorrect usage testcase 8 (configuration file with both output path and output content)
 echo "INPUT" > tmp/test-input
 echo "OUTPUT" > tmp/test-output
-cmd/mockexec/mockexec -t 'SOME STRING' -o tmp/result tmp/test-input > /dev/null 2>&1
+cmd/mockexec/mockexec -t 'SOME STRING' -o tmp/result tmp/test-input < test/testdata/testconfig_both.textproto > /dev/null 2>&1
 if [ $? -eq 0 ]
 then
 	echo "Test 8: not working properly."
-	EXIT_STATUS=1
-fi
-
-# incorrect usage testcase 9 (nonexistent configuration file)
-echo "INPUT" > tmp/test-input
-echo "OUTPUT" > tmp/test-output
-cmd/mockexec/mockexec test/testdata/notestconfig.textproto -t 'SOME STRING' -o tmp/result tmp/test-input > /dev/null 2>&1
-if [ $? -eq 0 ]
-then
-	echo "Test 9: not working properly."
-	EXIT_STATUS=1
-fi
-
-# incorrect usage testcase 10 (configuration file with both output path and output content)
-echo "INPUT" > tmp/test-input
-echo "OUTPUT" > tmp/test-output
-cmd/mockexec/mockexec test/testdata/testconfig_both.textproto -t 'SOME STRING' -o tmp/result tmp/test-input > /dev/null 2>&1
-if [ $? -eq 0 ]
-then
-	echo "Test 10: not working properly."
 	EXIT_STATUS=1
 fi
 

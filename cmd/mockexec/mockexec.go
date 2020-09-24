@@ -24,6 +24,7 @@ import (
 	"log"
 	"os"
 	"strings"
+	"bufio"
 
 	"github.com/golang/protobuf/proto"
 	pb "github.com/regb/executable-mocks/protos/mockexec"
@@ -32,19 +33,17 @@ import (
 const bufferSize = 4096
 
 func MockExecutable() {
-  if len(os.Args) < 2 {
-		log.Fatal("Expected the path of the configuration file")
-	}
-	t, err := ioutil.ReadFile(os.Args[1])
-	if err != nil {
-		log.Fatal(err)
+  r := bufio.NewReader(os.Stdin)
+  t, err := ioutil.ReadAll(r)
+  if err != nil {
+    log.Fatal(err)
 	}
 	c := &pb.MockCall{}
 	if err := proto.UnmarshalText(string(t), c); err != nil {
 		log.Fatal(err)
 	}
-	if len(os.Args)-2 != len(c.Args) {
-		log.Fatalf("Expected %v arguments but got %v", len(c.Args), len(os.Args)-2)
+	if len(os.Args) - 1 != len(c.Args) {
+		log.Fatalf("Expected %v arguments but got %v", len(c.Args), len(os.Args) - 1)
 	}
 
 	// TODO: check the name of the utility.
@@ -53,9 +52,9 @@ func MockExecutable() {
 	var sourceContent string
 	var destPath string
 
-	for i := 2; i < len(os.Args); i++ {
+	for i := 1; i < len(os.Args); i++ {
 		// TODO: perform the checks in parallel
-		switch x := c.Args[i-2].Arg.(type) {
+		switch x := c.Args[i - 1].Arg.(type) {
 		case *pb.Argument_StrArg:
 			if x.StrArg != os.Args[i] {
 				log.Fatalf("String arguments don't match: want %q; got %q", x.StrArg, os.Args[i])
