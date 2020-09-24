@@ -31,8 +31,8 @@ import (
 
 const bufferSize = 4096
 
-func main() {
-	if len(os.Args) < 2 {
+func MockExecutable() {
+  if len(os.Args) < 2 {
 		log.Fatal("Expected the path of the configuration file")
 	}
 	t, err := ioutil.ReadFile(os.Args[1])
@@ -119,4 +119,8 @@ func main() {
 			log.Fatal(err)
 		}
 	}
+}
+
+func main() {
+	MockExecutable()
 }

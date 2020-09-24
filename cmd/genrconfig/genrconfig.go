@@ -31,7 +31,7 @@ import (
  * The second argudment is the name of the binary and the arguments follow.
  * The arguments must have as a prefix "type:". The type can be: strarg, infile, outpath, outcontent.
  */
-func main() {
+func GenerateConfig() {
   if len(os.Args) < 2 {
     log.Fatal("Expected the name of the binary.")
   }
@@ -53,4 +53,8 @@ func main() {
   if _, err := fmt.Print((proto.MarshalTextString(&mc))); err != nil {
       log.Fatal(err)
   }
+}
+
+func main() {
+  GenerateConfig()
 }
