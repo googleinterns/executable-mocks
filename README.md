@@ -3,9 +3,9 @@
 A tool that mocks executables to make tests more effective.
 
 ## Table of contents
-- [Overview](#Overview)]
+- [Overview](#Overview)
 - [Getting started](#Getting-started)
-- [Description](#Description)]
+- [Description](#Description)
 - [Structure](#Structure)
 - [Usage](#Usage)
 - [Authors](#Authors)
